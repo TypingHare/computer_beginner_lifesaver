@@ -4,7 +4,7 @@
 
 ## Installation
 
-First of all, install `clang-format` using your preferred [package manager](https://en.wikipedia.org/wiki/List_of_software_package_management_systems):
+Install `clang-format` using your preferred [package manager](https://en.wikipedia.org/wiki/List_of_software_package_management_systems):
 
 ```shell
 # On Ubuntu (WSL2)
