@@ -90,50 +90,168 @@ $ rm -r demo
 
 ## Command-line Sessions
 
+Each time you open a terminal, a new session is created. If you open a new tab, it starts a separate session, and each session operates independently. Every session maintains its own set of **environment variables**, which store configuration settings that affect how processes run. You can view the environment variables and their values using the `env` command. Below is an excerpt from the `env` command output on the UMass Lowell cloud server.
 
+```text
+XDG_SESSION_ID=5657
+USER=zchen2
+PWD=/home/undergrad/2026/zchen2
+SSH_ASKPASS=/usr/libexec/openssh/gnome-ssh-askpass
+HOME=/home/undergrad/2026/zchen2
+```
+
+Each line represents a **key-value pair** (or an **entry**), where both the key and value are strings. To display the value associated with a specific key, use the command `echo $<key>`:
+
+```shell 
+$ echo $USER
+zchen2
+$ echo $HOME
+/home/undergrad/2026/zchen2
+$ echo $PATH
+/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/home/undergrad/2026/zchen2/bin
+```
+
+You can set a new environment variable using the `export` command. If the key already exists, the new value will override the previous one.
+
+```shell
+$ export TEST="test"
+$ echo TEST
+test
+```
+
+As mentioned earlier, each session has its own set of environment variables. This means that if you set a variable in one tab, it won't affect any other tabs. Additionally, if you close the terminal and reopen it, any changes to environment variables will be lost. To ensure that certain environment variables are set automatically every time you start a new session, add the `export` commands to your **profile configuration file** (or simply **profile file**).
+
+Use the `echo $0` command to determine which **command-line interpreter** you are using. The most commonly used interpreters on Unix-like systems, such as Linux distributions and macOS, are `bash` and `zsh`. If the output is `bash`, the corresponding profile file is `~/.bashrc` (where `~` represents your **home directory**). If the interpreter is `zsh`, the profile file is `~/.zshrc`.
+
+> [!IMPORTANT]
+>
+> **PRACTICE 1**    Execute the command `echo ~`. What does the output stand for?
+>
+> **PRACTICE 2**    Append `export HELLO="hello world"` to your profile file, then open a new terminal session and run the command `echo $HELLO` to see the value of the variable.
 
 ## Environment Paths
 
+In the previous chapter, we discussed environment variables, highlighting the significance of the `PATH` variable and several other related variables. It is the culprit of causing a lot of tricky problems that torturing beginners to emotional breakdown. It is time for uncovering its mystery.
 
+Start by running the `echo $PATH` command on your computer. This will display a string containing multiple absolute paths separated by colons (`:`). These paths typically end with `bin`, which stands for **binary directory** and is where many executable files are stored. We can split the long string by piping it to a `tr` command:
+
+```bash
+$ echo $PATH | tr : "\n"
+/usr/local/bin
+/usr/bin
+/bin
+```
+
+When we enter a command, the system searches for an executable file with the same name in each of these directories, in the order they appear in the `PATH`. If it can't find the file, you'll see an error message: `command not found: xxx`, where "xxx" is the command you attempted to run.
+
+Before discussing the mechanism the operating system applies to locate commands, the command `which` has to be introduced. We can use the `which` command to find the path to a specific executable. For example:
+
+```bash
+$ which touch
+/usr/bin/touch
+$ which g++
+/usr/bin/g++
+```
+
+Many pre-installed system programs are located in` /usr/bin`. However, if you install a program through a **package manager**, the location of the executable may vary. For instance:
+
+```bash
+$ which java
+/Library/Java/JavaVirtualMachines/jdk-21.jdk/Contents/Home/bin/java
+$ which python
+/opt/homebrew/anaconda3/bin/python
+```
+
+While `/usr/bin` is typically included in the `PATH` by default, custom directories like `/Library/Java/JavaVirtualMachines/jdk-21.jdk/Contents/Home/bin` and `/opt/homebrew/anaconda3/bin` are not. To make these custom paths accessible from the command line, we need to add them to the `PATH` variable as follows:
+
+```bash
+export PATH="$PATH:/Library/Java/JavaVirtualMachines/jdk-21.jdk/Contents/Home/bin"
+export PATH="$PATH:/opt/homebrew/anaconda3/bin"
+```
+
+To ensure these commands are automatically executed each time a new session is created, we can add them to our profile file. This way, the custom paths will be included in our `PATH` variable every time we start a new terminal session.
+
+In addition to `PATH`, many compilers rely on specific environment variables to locate source files. For instance, g++ uses `CPATH` and `LIBRARY_PATH` to define paths for `.hpp` header files and `.cpp` library files, respectively. If you're using Homebrew to install C++ libraries, you’ll need to set these variables in your profile file:
+
+```bash
+export CPATH="$CPATH:/opt/homebrew/include"
+export LIBRARY_PATH="$LIBRARY_PATH:/opt/homebrew/lib"
+```
+
+Here, `/opt/homebrew` is the default Homebrew root directory on macOS with Apple Silicon, but it may vary depending on your operating system or installation setup. Adding these paths ensures that `g++` can find your Homebrew-installed libraries automatically.
 
 ## Exercises
 
 1\. Which of the following is NOT an absolute path?
 
-​	a\. `/home/andrew`
+​        a\. `/home/andrew`
 
-​	b. `./home/kim`
+​        b. `./home/kim`
 
-​	c. `/`
+​        c. `/`
 
-​	d. `/java/../cpp/hw1`
+​        d. `/java/../cpp/hw1`
 
 2\. Which of the following is NOT an relative path?
 
-​	a\. `..`
+​        a\. `..`
 
-​	b. `/.ssh/id_rsa`
+​        b. `/.ssh/id_rsa`
 
-​	c. `../kim/.ssh/`
+​        c. `../kim/.ssh/`
 
-​	d.  `andrew/kotlin/src`
+​        d.  `andrew/kotlin/src`
 
 3\. Which of the following path resolution is NOT correct?
 
-​	a\. `/home/james` + `resume` => `/home/jamesresume`
+​        a\. `/home/james` + `resume` => `/home/jamesresume`
 
-​	b\. `/etc/nginx` + `./conf.d` => `/etc/nginx/./conf.d`
+​        b\. `/etc/nginx` + `./conf.d` => `/etc/nginx/./conf.d`
 
-​	c. `/usr/bin/` + `mkdir` => `/usr/bin/mkdir`
+​        c. `/usr/bin/` + `mkdir` => `/usr/bin/mkdir`
 
-​	d. `/home/andrew/php` + `../go` => `/home/andrew/php/../go`
+​        d. `/home/andrew/php` + `../go` => `/home/andrew/php/../go`
 
 4\. Which of the following path normalization is correct?
 
-​	a\. `/home/andrew/php/../go` => `/home/andrew/php/go`
+​        a\. `/home/andrew/php/../go` => `/home/andrew/php/go`
 
-​	b\. `/usr/bin/./touch` => `/usr/touch`
+​        b\. `/usr/bin/./touch` => `/usr/touch`
 
-​	c\. `/home/james/./resume` => `home/james/resume`
+​        c\. `/home/james/./resume` => `home/james/resume`
 
-​	d\. `/home/andrew/./../pat/resume` => `/home/pat/resume`
+​        d\. `/home/andrew/./../pat/resume` => `/home/pat/resume`
+
+5\. Christ is currently in the `/home/christ/cpp` directory and runs the command `cd src/hw1`. Which of the following outcomes are possible? Select all that apply.
+
+​        a. Christ is navigated to `/src/hw1`
+
+​        b. An error message is displayed, and Christ remains in the `/home/christ/cpp` directory.
+
+​        c. Christ is navigated to `/home/christ/cpp/src/hw1`.
+
+​        d. An error message is displayed, and Christ is navigated to `/src/hw1`.
+
+6\. Bob has trouble navigating to `/home/bob/java/src/main`. His terminal history is as follows:
+
+```shell
+$ pwd
+/home/bob
+$ cd java/src
+$ cd main
+cd: no such file or directory: main
+$ ls
+test Main.java Makefile
+```
+
+Which of the following is NOT correct? Choose all that applies.
+
+​        a. There is no folder named `main` in `/home/bob/java/src`
+
+​        b. When Bob executes the `cd main` command, he is still in the `/home/bob` directory.
+
+​        c. There are three files or directories in `/home/bob/java/src`
+
+​        d. The `cd main` command creates a `main` folder in `/home/bob/java/src`.
+
+7\. 
