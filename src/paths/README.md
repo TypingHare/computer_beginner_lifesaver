@@ -34,7 +34,7 @@ Every directory in Linux contains two special entries: `.` and `..`.
 - `.` refers to the **current directory**. It is idempotent, meaning it does not change the directory and can be safely removed from a path without affecting the result.
 - `..` refers to the **parent directory**, allowing navigation one level up in the directory hierarchy.
 
-For example, `src/components/./Main.tsx` is equivalent to `src/components/Main.tsx` because `.` can be removed without altering the path; `/home/james/java/../kotlin` is equivalent to `/home/james/kotlin` because `..` moves up one directory from `java` to `home/james`, and then navigates to `kotlin`. Such process, removing `.` (current directory) and resolving `..` (parent directory) in a path, is called **path normalization**.
+For example, `src/components/./Main.tsx` is equivalent to `src/components/Main.tsx` because `.` can be removed without altering the path; `/home/james/java/../kotlin` is equivalent to `/home/james/kotlin` because `..` moves up one directory from `/home/james/java/` to `home/james/`, and then navigates to `kotlin`. Such process, removing `.` (current directory) and resolving `..` (parent directory) in a path, is called **path normalization**.
 
 ## Essential Linux Commands
 
