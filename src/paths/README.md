@@ -1,6 +1,6 @@
 # Paths in Linux
 
-Have you ever come across `FileNotFoundException` or similar exceptions and don't know how to address? Have you ever tried to move the code to another device and then it can't run? This article will be covering everything you need to know about PATHS.
+Have you ever encountered `FileNotFoundException` or similar exceptions and wondered how to address them? Have you ever tried to move the code to another device, but it can't run? This article will cover everything you need to know about PATHS.
 
 > [!IMPORTANT]
 >
@@ -21,13 +21,13 @@ An **absolute path** specifies the complete location of a file or directory from
 
 Note that in Linux, it can be unclear whether a path refers to a file or a directory, even if the path ends with `/`, since directories are also treated as files. To avoid ambiguity, it's good practice to append a `/` at the end of directory paths, clearly indicating that the path refers to a directory. 
 
-An **relative path** specifies the location of a file or directory relative to the current **working directory**. It doesn't start from the root but from the folder you're currently in. While all absolute paths always start with `/`, relative paths never. The following are relative paths:
+A **relative path** specifies the location of a file or directory relative to the current **working directory**. It doesn't start from the root but from the folder you're currently in. While all absolute paths always start with `/`, relative paths never. The following are relative paths:
 
 * `./foo/bar`
 * `src/hw1/Makefile`
 * `..`
 
-Operating systems can locate a file or directory using an absolute path. When a relative path is provided, the operating system resolves it by combining the relative path with the current working directory to form an absolute path. For example, if the working directory is `/home/james` and you attempt to open `diary/20240925.txt`, the operating system will concatenate the working directory with the relative path, resulting in `/home/james/diary/20240925.txt`. Such process, combining the working directory with a relative path to form an absolute path, is called **path resolution**.
+Operating systems can locate a file or directory using an absolute path. When a relative path is provided, the operating system resolves it by combining the relative path with the current working directory to form an absolute path. For example, if the working directory is `/home/james` and you attempt to open `diary/20240925.txt`, the operating system will concatenate the working directory with the relative path, resulting in `/home/james/diary/20240925.txt`. Such a process, combining the working directory with a relative path to form an absolute path, is called **path resolution**.
 
 Every directory in Linux contains two special entries: `.` and `..`. 
 
@@ -78,7 +78,7 @@ $ rm -r demo
 
 > [!IMPORTANT]
 >
-> Take five to ten minutes to play around with these Linux commands, and explore how *path resolution* and *path normalization* work in the terminal.
+> Take five to ten minutes to play around with these Linux commands and explore how *path resolution* and *path normalization* work in the terminal.
 >
 > > Practices make perfect.
 > >
@@ -192,7 +192,7 @@ Here, `/opt/homebrew` is the default Homebrew root directory on macOS with Apple
 
 ​        d. `/java/../cpp/hw1`
 
-2\. Which of the following is NOT an relative path?
+2\. Which of the following is NOT a relative path?
 
 ​        a\. `..`
 
@@ -252,6 +252,4 @@ Which of the following is NOT correct? Choose all that applies.
 
 ​        c. There are three files or directories in `/home/bob/java/src`
 
-​        d. The `cd main` command creates a `main` folder in `/home/bob/java/src`.
-
-7\. 
+​        d. The `cd main` command creates a `main` folder in `/home/bob/java/src`. 
