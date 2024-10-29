@@ -82,11 +82,7 @@ $ rm -r demo
 >
 > > Practices make perfect.
 > >
-> > <div style="display: flex; width: 100%; justify-content: flex-end;">
-> >   <span style="float: right;">
-> >   ——Feliks Zemdegs
-> >   </span>
-> > </div>
+> > <p align="right">——Feliks Zemdegs</p>
 
 ## Command-line Sessions
 
@@ -125,9 +121,9 @@ Use the `echo $0` command to determine which **command-line interpreter** you ar
 
 > [!IMPORTANT]
 >
-> **PRACTICE 1**    Execute the command `echo ~`. What does the output stand for?
+> **PRACTICE 1**&emsp;Execute the command `echo ~`. What does the output stand for?
 >
-> **PRACTICE 2**    Append `export HELLO="hello world"` to your profile file, then open a new terminal session and run the command `echo $HELLO` to see the value of the variable.
+> **PRACTICE 2**&emsp;Append `export HELLO="hello world"` to your profile file, then open a new terminal session and run the command `echo $HELLO` to see the value of the variable.
 
 ## Environment Paths
 
