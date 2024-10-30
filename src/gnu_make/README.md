@@ -16,7 +16,7 @@ sudo apt install make
 brew update
 brew install make
 
-# On other OS, google "<OS-name> install clang-format" to check for specific commands
+# On other OS, Google "<OS-name> install clang-format" to check for specific commands
 # Once you install clang-format, verify it with the following command
 make --version
 # This should display something like "GNU Make 3.81"
@@ -39,7 +39,7 @@ target: prerequisites
 >
 > You need to put a **tab character** at the beginning of every recipe line.
 
-Whenever we need to create a `main.o` file, we will first check if `main.cpp` exists, and then run `g++ -c main.cpp` to produce `main.o`. Here, `main.o` is the target, `main.cpp` is the only prerequisite (or dependency, ingredient), and the command serves as the recipe for producing `main.o` with `main.cpp`.
+Whenever we need to create a `main.o` file, we will first check if `main.cpp` exists, and then run `g++ -c main.cpp` to produce `main.o`. Here, `main.o` is the target, `main.cpp` is the only prerequisite, and the command serves as the recipe for producing `main.o` with `main.cpp`.
 
 ```makefile
 # In `Makefile`
@@ -219,7 +219,7 @@ clean:
 
 > [!IMPORTANT]
 >
-> Take 5 minutes to think about, better off writing down on paper, what commands will be run after we execute the `make run` command. Then, check if your answer is the same as the following output.
+> Try figuring out what is executed when using `make run` in the command prompt, ideally on paper. Then, check if your answer is consistent with the following output.
 
 ```shell
 $ make run
